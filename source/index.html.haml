@@ -21,8 +21,10 @@ body:  hero
     %p  Analyse your sail in the bar, how much faster were you than your mate?
     %p  Did they almost have you? Or were you clear by miles.
 
+:javascript
+  $('.mod-carousel').flexslider({ selector: 'article' });
 
-%article
+%article.content-block
   %h1 How It Works
   %dl
     %dt Track
