@@ -4,6 +4,7 @@ Dotenv.load
 source 'https://rubygems.org'
 
 gem 'middleman'
+gem 'dotenv'
 
 gem 'bourbon'
 gem 'susy'

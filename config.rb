@@ -1,3 +1,6 @@
+require 'dotenv'
+Dotenv.load
+
 #require 'susy'
 
 set :css_dir,    'stylesheets'
