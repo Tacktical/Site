@@ -12,5 +12,5 @@ gem 'tacktical-styles', path: '../Layout'
 
 gem 'middleman-smusher'
 gem 'middleman-sprockets', git: 'git://github.com/JonRowe/middleman-sprockets', branch: 'add-images'
-gem 'middleman-aws-deploy'
+gem 'middleman-sync'
 gem 'middleman-livereload'
