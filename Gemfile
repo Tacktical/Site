@@ -11,6 +11,6 @@ gem 'susy'
 gem 'tacktical-styles', path: '../Layout'
 
 gem 'middleman-smusher'
-gem 'middleman-sprockets', git: 'git://github.com/JonRowe/middleman-sprockets', branch: 'add-images'
+gem 'middleman-sprockets', git: 'git://github.com/middleman/middleman-sprockets.git'
 gem 'middleman-sync'
 gem 'middleman-livereload'
