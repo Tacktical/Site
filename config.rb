@@ -33,7 +33,7 @@ end
 activate :sync do |sync|
   sync.fog_provider          = 'AWS'
   sync.fog_region            = ENV['S3_REGION']
-  sync.fog_directory         = ENV['S3_BUCKET']
+  sync.fog_directory         = ENV.fetch('TARGET',ENV['S3_BUCKET'])
   sync.aws_access_key_id     = ENV['S3_KEY']
   sync.aws_secret_access_key = ENV['S3_SECRET']
   sync.existing_remote_files = 'delete'
