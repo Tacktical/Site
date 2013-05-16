@@ -10,7 +10,7 @@ GIT
 PATH
   remote: ../Layout
   specs:
-    tacktical-styles (0.1.2)
+    tacktical-styles (0.1.8)
 
 GEM
   remote: https://rubygems.org/
