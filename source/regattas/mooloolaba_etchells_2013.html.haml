@@ -1,0 +1,84 @@
+---
+title: Mooloolaba Etchells 2013
+layout: layout
+---
+%section.mod-header-nav
+  %header
+    %h1
+      Mooloolaba Etchells 2013
+  %nav
+    %ul
+      %li#friday=   link_to 'Friday',   '#friday'
+      %li#saturday= link_to 'Saturday', '#saturday'
+      %li#sunday=   link_to 'Sunday',   '#sunday'
+
+%section.mod-page
+  %section.mod-event-map
+    #map
+  %section.mod-event-stats
+    %section.controls
+      %button.play#play &#9654;
+      .playback_time#playback_time 0:00:00:00
+      .progress#playback
+        #progress_bar.bar
+    %ul
+= javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+= javascript_include_tag '//maps.google.com/maps/api/js?sensor=true'
+= #javascript_include_tag "//tacktical-assets.s3.amazonaws.com/assets/map_bundle-93e5fcaf69c62be98a405be1a082a549.js"
+= javascript_include_tag "//0.0.0.0:9292/assets/map_bundle.js"
+= javascript_include_tag 'extensions'
+:javascript
+  var colours = ['blue','coral','darkorchid','crimson','cyan','darkgreen','cadetblue','darkmagenta'];
+  var map = new Map(document.getElementById('map'));
+  //var id = '51ade38d04dc8a215cc7cf4c';
+  var id = '51ac5c075aeaa527c264b530';
+  var race = (document.location.hash || '#friday').replace('#','')
+  $.ajax('https://tacktical-regatta.herokuapp.com/regattas/'+id+'/'+race,{
+    accepts: 'application/json',
+    success: function(regatta)
+    {
+      var track, tp, colour, row;
+      var tracks = new CombinedPlayer();
+      var controls = new DeferredControls(tracks, new Display(), regatta.tracks.length);
+
+      for (var i=0; i < regatta.tracks.length; i++)
+      {
+        track = regatta.tracks[i];
+        $('.mod-event-stats ul').append(
+          '<li id="track_'+i+'">'+
+            '<h2>'+
+              '<span class="stats"></span>'+
+            '</h2>'+
+            '<span class="graph"></span>'+
+          '</li>'
+        );
+
+        $.ajax('https://tacktical-plot.herokuapp.com'+track.link,{
+          accepts: 'application/json',
+          headers: { Authorization: track.signature[0], 'X-HMAC-Nonce': track.signature[1], 'X-HMAC-Date': track.signature[2] },
+          success: function(index)
+          {
+            return function(track)
+            {
+              colour = colours.shift()
+              row = $('.mod-event-stats ul li#track_'+index)
+              tp  = new TrackPlayer(track.positions,
+                [
+                  map,
+                  new TrackStatistics(row.find('.stats')),
+                  new SpeedGraph($.plot,row.find('.graph'),{ colour: colour })
+                ], colour );
+              tp.set_to(new TimeCode(tp.finish_time().getTime() - tp.start_time().getTime()));
+              row.css('color',colour);
+              tracks.push(tp);
+              controls.loaded();
+            }
+          }(i)
+        });
+      }
+
+      slider(document.getElementById('playback'),function(event) { controls.skip(event) });
+      controls.end();
+      $('#play').click(function() { controls.play() });
+    }
+  });
