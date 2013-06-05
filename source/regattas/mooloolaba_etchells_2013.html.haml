@@ -6,11 +6,13 @@ layout: layout
   %header
     %h1
       Mooloolaba Etchells 2013
+    = link_to "", "https://itunes.apple.com/au/app/tacktical/id647500092?mt=8&uo=4", target: "itunes_store"
   %nav
     %ul
       %li#friday=   link_to 'Friday',   '#friday'
       %li#saturday= link_to 'Saturday', '#saturday'
       %li#sunday=   link_to 'Sunday',   '#sunday'
+      %li#about=    link_to 'About',    '#about'
       - if development?
         %li#test_syd_win= link_to 'Test', '#test_syd_win'
 
