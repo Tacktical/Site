@@ -27,16 +27,18 @@ layout: layout
 = javascript_include_tag 'bundle'
 :javascript
   var colours = ['blue','coral','darkorchid','crimson','cyan','darkgreen','cadetblue','darkmagenta'];
-  var map = new Map(document.getElementById('map'));
   var id = '51ade38d04dc8a215cc7cf4c';
   var race = (document.location.hash || '#friday').replace('#','')
+  var map, tracks, controls;
   $.ajax('https://tacktical-regatta.herokuapp.com/regattas/'+id+'/'+race,{
     accepts: 'application/json',
     success: function(regatta)
     {
       var track, tp, colour, row;
-      var tracks = new CombinedPlayer();
-      var controls = new DeferredControls(tracks, new Display(), regatta.tracks.length);
+      tracks = new CombinedPlayer();
+      controls = new DeferredControls(tracks, new Display(), regatta.tracks.length);
+      map = new Map(document.getElementById('map'));
+      map.center({ lat: regatta.position[0], lng: regatta.position[1] });
 
       for (var i=0; i < regatta.tracks.length; i++)
       {
