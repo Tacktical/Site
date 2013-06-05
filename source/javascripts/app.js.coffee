@@ -1,6 +1,8 @@
+tracks = controls = map = undefined
+
 @load_regatta = (id,race,$) ->
   colours = ['blue','coral','darkorchid','crimson','cyan','darkgreen','cadetblue','darkmagenta']
-  tracks = controls = map = undefined
+  $('.mod-event-stats ul li').remove()
   $.ajax 'https://tacktical-regatta.herokuapp.com/regattas/'+id+'/'+race,
     accepts: 'application/json',
     success: (regatta) ->
@@ -13,7 +15,7 @@
       if regatta.tracks.length == 0
         $('.mod-event-stats ul').append('<li class="info"><h3>No competitors yet...</h3></li>')
       else
-        $('.mod-event-stats ul').append('<li class="info" data-remaining='+regatta.tracks.length+'>Loading '+regatta.tracks.length+' competitors...</li>')
+        $('.mod-event-stats ul').append('<li class="info" data-remaining='+regatta.tracks.length+'><h3>Loading '+regatta.tracks.length+' competitors...</li>')
 
       for track, i in regatta.tracks
         $('.mod-event-stats ul').append(

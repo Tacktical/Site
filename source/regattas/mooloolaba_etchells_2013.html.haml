@@ -11,6 +11,9 @@ layout: layout
       %li#friday=   link_to 'Friday',   '#friday'
       %li#saturday= link_to 'Saturday', '#saturday'
       %li#sunday=   link_to 'Sunday',   '#sunday'
+      - if development?
+        %li#test_syd_win= link_to 'test_syd_win', '#test_syd_win'
+
 
 %section.mod-page
   %section.mod-event-map
@@ -27,3 +30,6 @@ layout: layout
 = javascript_include_tag 'bundle'
 :javascript
   load_regatta('51ade38d04dc8a215cc7cf4c', (document.location.hash || '#friday').replace('#',''),$);
+  $(window).bind('hashchange', function() {
+    load_regatta('51ade38d04dc8a215cc7cf4c', (document.location.hash || '#friday').replace('#',''),$);
+  });
