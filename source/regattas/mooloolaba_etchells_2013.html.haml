@@ -24,9 +24,7 @@ layout: layout
     %ul
 = javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
 = javascript_include_tag '//maps.google.com/maps/api/js?sensor=true'
-= #javascript_include_tag "//tacktical-assets.s3.amazonaws.com/assets/map_bundle-93e5fcaf69c62be98a405be1a082a549.js"
-= javascript_include_tag "//0.0.0.0:9292/assets/map_bundle.js"
-= javascript_include_tag 'extensions'
+= javascript_include_tag 'bundle'
 :javascript
   var colours = ['blue','coral','darkorchid','crimson','cyan','darkgreen','cadetblue','darkmagenta'];
   var map = new Map(document.getElementById('map'));
