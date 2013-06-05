@@ -40,6 +40,14 @@ layout: layout
       map = new Map(document.getElementById('map'));
       map.center({ lat: regatta.position[0], lng: regatta.position[1] });
 
+      if(regatta.tracks.length == 0)
+      {
+        $('.mod-event-stats ul').append('<li class="info">No competitors yet...</li>');
+      }
+      else
+      {
+        $('.mod-event-stats ul').append('<li class="info" data-remaining='+regatta.tracks.length+'>Loading '+regatta.tracks.length+' competitors...</li>');
+      }
       for (var i=0; i < regatta.tracks.length; i++)
       {
         track = regatta.tracks[i];
@@ -59,6 +67,18 @@ layout: layout
           {
             return function(track)
             {
+              var info = $('.mod-event-stats .info');
+              var remaining = info.data('remaining');
+              if (remaining > 1)
+              {
+                remaining--;
+                info.data('remaining',remaining);
+                info.text('Loading '+remaining+' competitors...');
+              }
+              else
+              {
+                info.remove();
+              }
               colour = colours.shift()
               row = $('.mod-event-stats ul li#track_'+index)
               tp  = new TrackPlayer(track.positions,
