@@ -34,8 +34,11 @@ class CombinedPlayer
     time
 
   set_to: (timecode) ->
-    for track in @tracks
-      track.set_to timecode
+    if @tracks.length > 0
+      origin = @start_time().getTime()
+      $('#progress_bar .bar').width( (timecode.progress(@finish_time().getTime()-origin)*100)+'%' )
+      for track in @tracks
+        track.set_to timecode
 
   push: (track) ->
     @tracks.push track
