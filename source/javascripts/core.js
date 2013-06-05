@@ -443,7 +443,7 @@
         mapTypeControl: false,
         streetViewControl: false
       });
-      this.tracks = [];
+      this.tracks = {};
     }
 
     Map.prototype.load = function(points, options) {
@@ -465,7 +465,7 @@
           return bounds.extend(point);
         });
         this.actual.fitBounds(bounds);
-        return this.tracks.push(new Track(this.api, this.actual, points, options));
+        return this.tracks[options.reference] = new Track(this.api, this.actual, points, options);
       }
     };
 
@@ -473,16 +473,8 @@
       return this.actual.setCenter(new this.api.LatLng(point.lat, point.lng));
     };
 
-    Map.prototype.set = function(index) {
-      var track, _i, _len, _ref, _results;
-
-      _ref = this.tracks;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        track = _ref[_i];
-        _results.push(track.set_to(index));
-      }
-      return _results;
+    Map.prototype.set = function(index, reference) {
+      return this.tracks[reference].set_to(index);
     };
 
     Map.prototype.mark = function(lat, lng, opts) {
@@ -976,6 +968,7 @@ f.bars);null!=f.shadowSize&&(f.series.shadowSize=f.shadowSize);null!=f.highlight
         colour = 'blue';
       }
       this.calc = calc != null ? calc : DistanceBetween;
+      this.reference = (new Date).getTime() + ':' + Math.random();
       this.last_point = void 0;
       this.points = points.map(function(point) {
         var distance;
@@ -997,7 +990,8 @@ f.bars);null!=f.shadowSize&&(f.series.shadowSize=f.shadowSize);null!=f.highlight
       });
       this.output.forEach(function(out) {
         return out.load(_this.points, {
-          colour: colour
+          colour: colour,
+          reference: _this.reference
         });
       });
     }
@@ -1031,7 +1025,8 @@ f.bars);null!=f.shadowSize&&(f.series.shadowSize=f.shadowSize);null!=f.highlight
     };
 
     TrackPlayer.prototype.set_to = function(timecode) {
-      var index, segment, time, track, _i, _len, _ref;
+      var index, segment, time, track, _i, _len, _ref,
+        _this = this;
 
       time = timecode.time_from(this.start_time());
       segment = 0;
@@ -1045,7 +1040,7 @@ f.bars);null!=f.shadowSize&&(f.series.shadowSize=f.shadowSize);null!=f.highlight
         }
       }
       return this.output.map(function(out) {
-        return out.set(segment + 1);
+        return out.set(segment + 1, _this.reference);
       });
     };
 
