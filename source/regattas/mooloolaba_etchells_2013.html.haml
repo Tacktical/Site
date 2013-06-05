@@ -28,8 +28,7 @@ layout: layout
 :javascript
   var colours = ['blue','coral','darkorchid','crimson','cyan','darkgreen','cadetblue','darkmagenta'];
   var map = new Map(document.getElementById('map'));
-  //var id = '51ade38d04dc8a215cc7cf4c';
-  var id = '51ac5c075aeaa527c264b530';
+  var id = '51ade38d04dc8a215cc7cf4c';
   var race = (document.location.hash || '#friday').replace('#','')
   $.ajax('https://tacktical-regatta.herokuapp.com/regattas/'+id+'/'+race,{
     accepts: 'application/json',
