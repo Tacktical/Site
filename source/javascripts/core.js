@@ -447,7 +447,7 @@
     }
 
     Map.prototype.load = function(points, options) {
-      var bounds,
+      var bounds, _base, _name,
         _this = this;
 
       if (options == null) {
@@ -465,7 +465,8 @@
           return bounds.extend(point);
         });
         this.actual.fitBounds(bounds);
-        return this.tracks[options.reference] = new Track(this.api, this.actual, points, options);
+        (_base = this.tracks)[_name = options.reference] || (_base[_name] = new Track(this.api, this.actual, points, options));
+        return this.tracks[options.reference].points = points;
       }
     };
 
@@ -964,37 +965,48 @@ f.bars);null!=f.shadowSize&&(f.series.shadowSize=f.shadowSize);null!=f.highlight
       var _this = this;
 
       this.output = output;
-      if (colour == null) {
-        colour = 'blue';
-      }
+      this.colour = colour != null ? colour : 'blue';
       this.calc = calc != null ? calc : DistanceBetween;
       this.reference = (new Date).getTime() + ':' + Math.random();
       this.last_point = void 0;
-      this.points = points.map(function(point) {
-        var distance;
-
-        distance = _this.last_point ? (new _this.calc(_this.last_point, {
-          lat: point.coords[0],
-          lng: point.coords[1]
-        })).to_nm() : 0;
-        return _this.last_point = {
-          time: new Date(point.time),
-          lat: point.coords[0],
-          lng: point.coords[1],
-          cog: point.course[0],
-          sog: point.course[1],
-          distance_since_last: distance,
-          wind_speed: point.wind_speed,
-          wind_bearing: point.wind_bearing
-        };
+      this.points = [];
+      points.map(function(point) {
+        return _this.add_point(point);
       });
-      this.output.forEach(function(out) {
+      this.load();
+    }
+
+    TrackPlayer.prototype.load = function() {
+      var _this = this;
+
+      return this.output.forEach(function(out) {
         return out.load(_this.points, {
-          colour: colour,
+          colour: _this.colour,
           reference: _this.reference
         });
       });
-    }
+    };
+
+    TrackPlayer.prototype.add_point = function(point) {
+      var distance;
+
+      distance = this.last_point ? (new this.calc(this.last_point, {
+        lat: point.coords[0],
+        lng: point.coords[1]
+      })).to_nm() : 0;
+      point = {
+        time: new Date(point.time),
+        lat: point.coords[0],
+        lng: point.coords[1],
+        cog: point.course[0],
+        sog: point.course[1],
+        distance_since_last: distance,
+        wind_speed: point.wind_speed,
+        wind_bearing: point.wind_bearing
+      };
+      this.points.push(point);
+      return this.last_point = point;
+    };
 
     TrackPlayer.prototype.start_time = function() {
       return this.points[0].time;

@@ -30,7 +30,7 @@ tracks = controls = map = undefined
         $.ajax('https://tacktical-plot.herokuapp.com'+track.link,
           accepts: 'application/json',
           headers: { Authorization: track.signature[0], 'X-HMAC-Nonce': track.signature[1], 'X-HMAC-Date': track.signature[2] },
-          success: ((index) ->
+          success: ((index,link) ->
             (track) ->
               info = $('.mod-event-stats .info')
               remaining = info.data('remaining')
@@ -54,7 +54,14 @@ tracks = controls = map = undefined
               row.css('color',colour)
               tracks.push(tp)
               controls.loaded()
-          )(i)
+              source = new EventSource('https://tacktical-live.herokuapp.com'+link)
+              source.onmessage = (event) ->
+                positions = event.data.positions.sort((a,b) -> a.time.getTime() - b.time.getTime() )
+                positions.forEach (point) ->
+                  tp.add_point point unless point.time in tp.points.map( (point) -> point.time )
+                tp.load()
+                controls.loaded()
+          )(i,track.link)
         )
 
       slider document.getElementById('playback'), ((event) -> controls.skip(event) )
