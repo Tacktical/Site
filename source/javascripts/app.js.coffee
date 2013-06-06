@@ -56,11 +56,13 @@ tracks = controls = map = undefined
               controls.loaded()
               source = new EventSource('https://tacktical-live.herokuapp.com'+link)
               source.onmessage = (event) ->
-                positions = event.data.positions.sort((a,b) -> a.time.getTime() - b.time.getTime() )
-                positions.forEach (point) ->
-                  tp.add_point point unless point.time in tp.points.map( (point) -> point.time )
-                tp.load()
-                controls.loaded()
+                data = JSON.parse event.data
+                if data.positions?
+                  positions = data.positions.sort((a,b) -> a.time.getTime() - b.time.getTime() )
+                  positions.forEach (point) ->
+                    tp.add_point point unless point.time in tp.points.map( (point) -> point.time )
+                  tp.load()
+                  controls.loaded()
           )(i,track.link)
         )
 
