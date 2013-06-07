@@ -444,6 +444,7 @@
         streetViewControl: false
       });
       this.tracks = {};
+      this.track_references = [];
     }
 
     Map.prototype.load = function(points, options) {
@@ -464,8 +465,18 @@
         points.forEach(function(point) {
           return bounds.extend(point);
         });
+        for(var i=0; i < this.track_references.length; i++)
+        {
+          this.tracks[this.track_references[i]].points.forEach(function(point) {
+            return bounds.extend(point);
+          });
+        }
         this.actual.fitBounds(bounds);
         (_base = this.tracks)[_name = options.reference] || (_base[_name] = new Track(this.api, this.actual, points, options));
+        if(this.track_references.indexOf(options.reference) < 0)
+        {
+          this.track_references.push(options.reference);
+        }
         return this.tracks[options.reference].points = points;
       }
     };
