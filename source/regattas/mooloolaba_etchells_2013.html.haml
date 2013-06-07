@@ -47,7 +47,9 @@ layout: layout
 = javascript_include_tag '//maps.google.com/maps/api/js?sensor=true'
 = javascript_include_tag 'bundle'
 :javascript
-  load_regatta('51ade38d04dc8a215cc7cf4c', (document.location.hash || '#friday').replace('#',''),$);
+  var dates = { "Fri Jun 07 2013": "#friday", "Sat Jun 08 2013": "#saturday", "Sun Jun 09 2013": "#sunday" };
+  var today = dates[new Date().toDateString()];
+  load_regatta('51ade38d04dc8a215cc7cf4c', (document.location.hash || today || '#friday').replace('#',''),$);
   $(window).bind('hashchange', function() {
-    load_regatta('51ade38d04dc8a215cc7cf4c', (document.location.hash || '#friday').replace('#',''),$);
+    load_regatta('51ade38d04dc8a215cc7cf4c', (document.location.hash || today || '#friday').replace('#',''),$);
   });
