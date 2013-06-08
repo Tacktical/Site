@@ -58,7 +58,7 @@ tracks = controls = map = undefined
               source.onmessage = (event) ->
                 data = JSON.parse event.data
                 if data.positions?
-                  positions = data.positions.sort((a,b) -> a.time.getTime() - b.time.getTime() )
+                  positions = data.positions.sort((a,b) -> a.time - b.time )
                   positions.forEach (point) ->
                     tp.add_point point unless point.time in tp.points.map( (point) -> point.time )
                   tp.load()
