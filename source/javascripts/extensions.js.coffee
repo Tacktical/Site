@@ -41,8 +41,11 @@ class CombinedPlayer
         tc = new TimeCode( timecode.timecode - (track.start_time().getTime() - origin) )
         track.set_to tc
 
-  push: (track) ->
-    @tracks.push track
+  push: (new_track) ->
+    for track in @tracks
+      new_track.extend track
+      track.extend new_track
+    @tracks.push new_track
 
 (exports ? this).CombinedPlayer = CombinedPlayer
 

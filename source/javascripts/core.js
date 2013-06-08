@@ -998,6 +998,23 @@ f.bars);null!=f.shadowSize&&(f.series.shadowSize=f.shadowSize);null!=f.highlight
       });
     };
 
+    TrackPlayer.prototype.extend = function(other_track) {
+      var _this = this;
+
+      if(_this.start_time().getTime() > other_track.start_time().getTime())
+      {
+        _this.points.unshift({ time: _this.points[0].time,     lat: _this.points[0].lat, lng: _this.points[0].lng, cog: 0, sog: 0, distance_since_last: 0, wind_speed: 0, wind_bearing: 0 });
+        _this.points.unshift({ time: other_track.start_time(), lat: _this.points[0].lat, lng: _this.points[0].lng, cog: 0, sog: 0, distance_since_last: 0, wind_speed: 0, wind_bearing: 0 });
+      }
+      if(_this.finish_time().getTime() < other_track.finish_time().getTime())
+      {
+        var i = _this.points.length - 1;
+        _this.points.push({ time: _this.points[i].time,      lat: _this.points[i].lat, lng: _this.points[i].lng, cog: 0, sog: 0, distance_since_last: 0, wind_speed: 0, wind_bearing: 0 });
+        _this.points.push({ time: other_track.finish_time(), lat: _this.points[i].lat, lng: _this.points[i].lng, cog: 0, sog: 0, distance_since_last: 0, wind_speed: 0, wind_bearing: 0 });
+      }
+      _this.load();
+    };
+
     TrackPlayer.prototype.add_point = function(point) {
       var distance;
 
