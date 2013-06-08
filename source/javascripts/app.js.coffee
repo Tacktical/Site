@@ -61,7 +61,9 @@ tracks = controls = map = undefined
                   positions = data.positions.sort((a,b) -> a.time - b.time )
                   positions.forEach (point) ->
                     tp.add_point point unless point.time in tp.points.map( (point) -> point.time )
-                  tp.load()
+                  for track in tracks
+                    tp.extend track
+                    track.extend tp
                   controls.loaded()
           )(i,track.link)
         )
