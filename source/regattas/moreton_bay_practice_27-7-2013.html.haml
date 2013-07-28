@@ -9,10 +9,10 @@ layout: layout
     = link_to "", "https://itunes.apple.com/au/app/tacktical/id647500092?mt=8&uo=4", target: "itunes_store"
   %nav
     %ul
-      %li#saturday= link_to '20th',  '#20th'
-      %li#saturday= link_to '27th',  '#27th'
-      %li#sunday=   link_to '28th',  '#28th'
-      %li#about=    link_to 'About', '#about'
+      %li#20th=  link_to '20th',  '#20th'
+      %li#27th=  link_to '27th',  '#27th'
+      %li#28th=  link_to '28th',  '#28th'
+      %li#about= link_to 'About', '#about'
 
 %section.mod-page
   %section.mod-event-map
@@ -46,8 +46,7 @@ layout: layout
 = javascript_include_tag 'bundle'
 :javascript
   var dates = { "Sat Jul 27 2013": "#27th", "Sun Jul 28 2013": "#28th" };
-  var today = dates[new Date().toDateString()];
-  load_regatta('51ee6d27a56f30881020fab5', (document.location.hash || today || '#20th').replace('#',''),$);
+  load_regatta('51ee6d27a56f30881020fab5', (document.location.hash || '#27th').replace('#',''),$);
   $(window).bind('hashchange', function() {
-    load_regatta('51ee6d27a56f30881020fab5', (document.location.hash || today || '#20th').replace('#',''),$);
+    load_regatta('51ee6d27a56f30881020fab5', (document.location.hash || '#27th').replace('#',''),$);
   });
