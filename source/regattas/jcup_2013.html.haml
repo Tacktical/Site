@@ -47,12 +47,12 @@ layout: layout
 :javascript
   if(!document.location.hash)
   {
-    window.location.href = '/regattas/jcup_2013/#saturday';
+    window.location.href = '/regattas/jcup_2013/#thursday';
   }
   else
   {
-    load_regatta('52170a43ad5e1809e06f6c3e', (document.location.hash || '#saturday').replace('#',''),$);
+    load_regatta('52170a43ad5e1809e06f6c3e', (document.location.hash || '#thursday').replace('#',''),$);
   }
   $(window).bind('hashchange', function() {
-    load_regatta('52170a43ad5e1809e06f6c3e', (document.location.hash || '#saturday').replace('#',''),$);
+    load_regatta('52170a43ad5e1809e06f6c3e', (document.location.hash || '#thursday').replace('#',''),$);
   });
