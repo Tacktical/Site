@@ -1,0 +1,59 @@
+---
+title: Dartmouth Race Week 2013
+layout: layout
+---
+%section.mod-header-nav
+  %header
+    %h1
+      Dartmouth Race Week 2013
+    = link_to "", "https://itunes.apple.com/au/app/tacktical/id647500092?mt=8&uo=4", target: "itunes_store"
+  %nav
+    %ul
+      %li#thursday= link_to 'Thursday', '#thursday'
+      %li#friday=   link_to 'Friday',   '#friday'
+      %li#saturday= link_to 'Saturday', '#saturday'
+      %li#sunday=   link_to 'sunday',   '#sunday'
+      %li#about= link_to 'About', '#about'
+
+%section.mod-page
+  %section.mod-event-map
+    #map
+
+  %section.mod-event-stats
+    %section.controls
+      %button.play#play &#9654;
+      .playback_time#playback_time 0:00:00:00
+      .progress#playback
+        #progress_bar
+          .bar
+    %ul
+
+  %article.how-it-works#about
+    %h1
+      What is this?
+    %p
+      This page is showing tracks recorded via Tacktical on iPhones during the Dartmouth Race Week 2013, 29th
+      August to 1st September 2013. At Tacktical we want to help track your performance over time,
+      to help you find out how much you've improved this season. Let you analyse your sail after
+      the race, who was faster, who had the rights?
+    %p
+      You can find out more at #{ link_to "http://tacktic.al", "http://tacktic.al" } or
+      download the tracker on the app store to join in!
+    %p
+      = link_to "", "https://itunes.apple.com/au/app/tacktical/id647500092?mt=8&uo=4", target: "itunes_store", style: "display:inline-block;overflow:hidden;background:url(http://linkmaker.itunes.apple.com/htmlResources/assets/images/web/linkmaker/badge_appstore-lrg.png) no-repeat;width:135px;height:40px;@media only screen{background-image:url(http://linkmaker.itunes.apple.com/htmlResources/assets/images/web/linkmaker/badge_appstore-lrg.svg);}"
+
+= javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+= javascript_include_tag '//maps.google.com/maps/api/js?sensor=true'
+= javascript_include_tag 'bundle'
+:javascript
+  if(!document.location.hash)
+  {
+    window.location.href = '/regattas/dartmouth_2013/#thursday';
+  }
+  else
+  {
+    load_regatta('521d1fa27d63e1bb481deaa5', (document.location.hash || '#thursday').replace('#',''),$);
+  }
+  $(window).bind('hashchange', function() {
+    load_regatta('521d1fa27d63e1bb481deaa5', (document.location.hash || '#thursday').replace('#',''),$);
+  });
