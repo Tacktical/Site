@@ -1,6 +1,9 @@
-%form{ action: "https://tacktical.us5.list-manage.com/subscribe/post?u=fba89e58de3e9c4fb9ee3d0d7&amp;id=46fcbf71d8", method: 'post' }
-  %label{ for: 'EMAIL' }
+%form{ action: "//tacktical.us5.list-manage.com/subscribe/post?u=fba89e58de3e9c4fb9ee3d0d7&amp;id=46fcbf71d8", method: "post", name: "mc-embedded-subscribe-form" }
+  %label{ for: "mce-EMAIL" }
     Sign up to our mailing list<br/>Stay up-to-date with the latest tacktics
-  = input_tag 'EMAIL', type:'email', placeholder:'Your Email Address'
+  = input_tag '', type:'email', placeholder:'Your Email Address', id: "mce-EMAIL", name: 'EMAIL'
+  -#  real people should not fill this in and expect good things - do not remove this or risk form bot signups
+  %div{ style: "position: absolute; left: -5000px;" }
+    = input_tag '', type: 'text', name: 'b_fba89e58de3e9c4fb9ee3d0d7_46fcbf71d8', tabindex: "-1"
   .buttonbg
     %input{ type: "submit", value:"Sign Up", name: "subscribe", onClick: "_gaq.push(['_trackEvent', 'Beta', 'Signup']);" }
