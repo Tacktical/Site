@@ -27,7 +27,7 @@ tracks = controls = map = undefined
           '</li>'
         )
 
-        $.ajax('https://tacktical-plot.herokuapp.com'+track.link,
+        $.ajax('https://tacktical-api.herokuapp.com'+track.link,
           accepts: 'application/json',
           headers: { Authorization: track.signature[0], 'X-HMAC-Nonce': track.signature[1], 'X-HMAC-Date': track.signature[2] },
           success: ((index,link) ->
