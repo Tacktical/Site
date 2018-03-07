@@ -41,3 +41,9 @@ activate :sync do |sync|
   sync.gzip_compression      = true
   sync.after_build           = false
 end
+
+activate :cloudfront do |cf|
+  cf.access_key_id = ENV['CF_ACCESS_ID']
+  cf.secret_access_key = ENV['CF_SECRET_ACCESS_KEY']
+  cf.distribution_id = ENV['CF_DISTRIBUTION_ID']
+end
