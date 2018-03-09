@@ -27,11 +27,12 @@ tracks = controls = map = undefined
           '</li>'
         )
 
-        $.ajax('https://tacktical-api.herokuapp.com'+track.link,
+        $.ajax("https://tacktical-api.herokuapp.com/graphql?query=#{track.query}",
           accepts: 'application/json',
-          headers: { Authorization: track.signature[0], 'X-HMAC-Nonce': track.signature[1], 'X-HMAC-Date': track.signature[2] },
+          headers: { Authorization: "Bearer #{track.jwt}" },
           success: ((index,link) ->
-            (track) ->
+            (response) ->
+              track = response.data.track
               info = $('.mod-event-stats .info')
               remaining = info.data('remaining')
 
