@@ -55,7 +55,7 @@ tracks = controls = map = undefined
               row.css('color',colour)
               tracks.push(tp)
               controls.loaded()
-              source = new EventSource('https://tacktical-live.herokuapp.com'+link)
+              source = new EventSource('https://tacktical-live.herokuapp.com/events/'+track.id)
               source.onmessage = (event) ->
                 data = JSON.parse event.data
                 if data.positions?
