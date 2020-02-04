@@ -1,5 +1,6 @@
 ---
 title: Moreton Bay 27/7/2013
+use_leaflet: true
 layout: layout
 ---
 %section.mod-header-nav
@@ -42,7 +43,6 @@ layout: layout
       = link_to "", "https://itunes.apple.com/au/app/tacktical/id647500092?mt=8&uo=4", target: "itunes_store", style: "display:inline-block;overflow:hidden;background:url(http://linkmaker.itunes.apple.com/htmlResources/assets/images/web/linkmaker/badge_appstore-lrg.png) no-repeat;width:135px;height:40px;@media only screen{background-image:url(http://linkmaker.itunes.apple.com/htmlResources/assets/images/web/linkmaker/badge_appstore-lrg.svg);}"
 
 = javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
-= javascript_include_tag "//maps.google.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}"
 = javascript_include_tag 'bundle'
 :javascript
   var dates = { "Sat Jul 27 2013": "#27th", "Sun Jul 28 2013": "#28th" };

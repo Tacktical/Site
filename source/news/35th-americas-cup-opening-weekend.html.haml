@@ -1,26 +1,14 @@
 ---
-title: Rolex Sydney To Hobart 2016
-use_leaflet: true
+title: 35th Americas Cup - Opening Weekend
 layout: layout
 ---
 %section.mod-header-nav
   %header
     %h1
-      Rolex Sydney To Hobart 2016
+      35th Americas Cup - Opening Weekend
     = link_to "", "https://itunes.apple.com/au/app/tacktical/id647500092?mt=8&uo=4", target: "itunes_store"
 
 %section.mod-page
-  %section.mod-event-map
-    #map
-
-  %section.mod-event-stats
-    %section.controls
-      %button.play#play &#9654;
-      .playback_time#playback_time 0:00:00:00
-      .progress#playback
-        #progress_bar
-          .bar
-    %ul
 
   %article.how-it-works#about
     %h1
@@ -35,8 +23,3 @@ layout: layout
       download the tracker on the app store to join in!
     %p
       = link_to "", "https://itunes.apple.com/au/app/tacktical/id647500092?mt=8&uo=4", target: "itunes_store", style: "display:inline-block;overflow:hidden;background:url(http://linkmaker.itunes.apple.com/htmlResources/assets/images/web/linkmaker/badge_appstore-lrg.png) no-repeat;width:135px;height:40px;@media only screen{background-image:url(http://linkmaker.itunes.apple.com/htmlResources/assets/images/web/linkmaker/badge_appstore-lrg.svg);}"
-
-= javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
-= javascript_include_tag 'bundle'
-:javascript
-  load_regatta('rolexs2h2016', 'Rolex Sydney To Hobart 2016',$);

@@ -417,16 +417,16 @@
       this.points = points;
       this.options = options != null ? options : {};
       (_base = this.options).colour || (_base.colour = "blue");
-      this.actual = new this.api.Polyline({
-        strokeColor: this.options.colour,
-        strokeOpacity: 1.0,
-        strokeWeight: 2.5,
-        map: this.map
+      this.actual = new this.api.polyline(points, {
+        color: this.options.colour,
+        opacity: 1.0,
+        weight: 2.5
       });
+      this.actual.addTo(this.map);
     }
 
     Track.prototype.set_to = function(index) {
-      return this.actual.setPath(this.points.slice(0, index));
+      return this.actual.setLatLngs(this.points.slice(0, index));
     };
 
     return Track;
@@ -436,15 +436,14 @@
   Map = (function() {
     function Map(element, api) {
       this.element = element;
-      this.api = api != null ? api : google.maps;
-      this.actual = new this.api.Map(this.element, {
-        zoom: 13,
-        mapTypeId: this.api.MapTypeId.ROADMAP,
-        mapTypeControl: false,
-        streetViewControl: false
+      this.api = api != null ? api : L;
+      this.actual = this.api.map(this.element, {
+        attributionControl: false,
+        zoom: 13
       });
       this.tracks = {};
       this.track_references = [];
+      this.api.tileLayer("https://map-tiles.sailing.tools/tiles/{z}/{x}/{y}.png").addTo(this.actual);
     }
 
     Map.prototype.load = function(points, options) {
@@ -456,12 +455,12 @@
       }
       if (points.length > 0) {
         points = points.map(function(point) {
-          return new _this.api.LatLng(point.lat, point.lng);
+          return _this.api.latLng(point["lat"], point["lng"]);
         });
         if ((options.center == null) || options.center) {
-          this.actual.setCenter(points[0]);
+          this.actual.panTo(points[0]);
         }
-        bounds = new this.api.LatLngBounds();
+        bounds = this.api.latLngBounds();
         points.forEach(function(point) {
           return bounds.extend(point);
         });
@@ -482,42 +481,34 @@
     };
 
     Map.prototype.center = function(point) {
-      return this.actual.setCenter(new this.api.LatLng(point.lat, point.lng));
+      return this.actual.panTo(this.api.latLng(point["lat"], point["lng"]));
     };
 
     Map.prototype.set = function(index, reference) {
       return this.tracks[reference].set_to(index);
     };
 
-    Map.prototype.mark = function(lat, lng, opts) {
-      if (opts == null) {
-        opts = {};
+    Map.prototype.mark = function(lat, lng, options) {
+      if (options == null) {
+        options = {};
       }
-      opts.map = this.actual;
-      opts.position = new this.api.LatLng(lat, lng);
-      return new this.api.Marker(opts);
+      var marker = this.api.marker([lat, lng], options);
+      marker.addTo(this.actual);
+      return marker;
     };
 
     Map.prototype.line = function(opts) {
-      opts.map = this.actual;
-      return new this.api.Polyline(opts);
+      var line = this.api.polyline([], opts);
+      line.addTo(this.actual);
+      return line;
     };
 
     Map.prototype.icon = function(file, opts) {
-      var icon;
-
-      icon = new this.api.MarkerImage(file);
-      if (opts.anchor) {
-        icon.anchor = new this.api.Point(opts.anchor[0], opts.anchor[1]);
-      }
-      return icon;
+      return this.api.icon({iconUrl: file, iconAnchor: opts.anchor});
     };
 
     Map.prototype.on = function(event, element, callback) {
-      var listened_on;
-
-      listened_on = element ? element.ui : this.actual;
-      return this.api.event.addListener(listened_on, event, function(api_event) {
+      return this.actual.on(event, function(api_event) {
         var api_latlng;
 
         api_latlng = api_event.latLng;
@@ -820,9 +811,9 @@ f.bars);null!=f.shadowSize&&(f.series.shadowSize=f.shadowSize);null!=f.highlight
     Display.prototype.update = function() {
       var _this = this;
 
-      this.line.setPath([]);
+      this.line.setLatLngs([]);
       return this.marks.forEach(function(mark) {
-        return _this.line.getPath().push(mark.position());
+        return _this.line.getLatLngs().push(mark.position());
       });
     };
 
@@ -976,7 +967,7 @@ f.bars);null!=f.shadowSize&&(f.series.shadowSize=f.shadowSize);null!=f.highlight
       var _this = this;
 
       this.output = output;
-      this.colour = colour != null ? colour : 'blue';
+      this.colour = colour != null ? colour : 'black';
       this.calc = calc != null ? calc : DistanceBetween;
       this.reference = (new Date).getTime() + ':' + Math.random();
       this.last_point = void 0;
