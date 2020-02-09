@@ -230,10 +230,10 @@ GEM
       asset_sync (~> 0.5.4)
       middleman-core (~> 3.0.0)
     mime-types (1.22)
-    mini_portile2 (2.2.0)
+    mini_portile2 (2.4.0)
     multi_json (1.12.1)
-    nokogiri (1.8.0)
-      mini_portile2 (~> 2.2.0)
+    nokogiri (1.10.7)
+      mini_portile2 (~> 2.4.0)
     padrino-core (0.10.7)
       activesupport (~> 3.2.0)
       http_router (~> 0.10.2)
@@ -306,4 +306,4 @@ DEPENDENCIES
   tacktical-styles!
 
 BUNDLED WITH
-   1.15.1
+   1.17.2
